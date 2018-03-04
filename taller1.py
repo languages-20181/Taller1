@@ -1,5 +1,5 @@
-import networkx as nx 
-import matplotlib.pyplot as plt
+import sys
+from graphviz import Digraph
 
 # print (" introduce un alfabeto,  separado por espacios: ")
 # alf = list(map(str, sys.stdin.readline().strip().split(' ')))
@@ -30,6 +30,11 @@ estadosFinales = entradas[3].strip().split(' ')
 # print(estadosFinales)
 
 matrizTransicion={}
+Grafo = Digraph(graph_attr = {'size':'3.5'})
+
+for nodo in conjuntoEstados:
+    Grafo.node(nodo)
+
 
 numeroRelaciones = len(conjuntoEstados) * len(alfabeto)
 for i in range( 4, numeroRelaciones + 4):
@@ -39,18 +44,21 @@ for i in range( 4, numeroRelaciones + 4):
     estado2 = linea[1]
     simbolo = linea[2]
 
-    if estado1 in matrizTransicion:
-        matrizTransicion[estado1][simbolo] = estado2
+    if estado1 not in matrizTransicion:
+        matrizTransicion[estado1] = {}
 
-    else:
-        matrizTransicion[estado1] = {simbolo:estado2}
+    (matrizTransicion[estado1])[simbolo] = estado2
+    Grafo.edge(estado1, estado2, label=simbolo)
+    
+
+
 
 print(matrizTransicion)
 
 while 1:
     print ("\n ingrese cadena a evaluar por el automata")
 
-    cadenaEntrada= input ()
+    cadenaEntrada= str(input ())
 
     estadoActual = estadoInicial
 
@@ -62,9 +70,18 @@ while 1:
     else:
         print (" cadena no aceptada ")
 
+    # nx.draw_circular(Grafo,node_size=3000,node_color='b',with_labels=True)
+    # pos=nx.spring_layout(Grafo)
+    # nx.draw_networkx_edge_labels(Grafo,pos)
+    # plt.show()
+    # nx.draw(Grafo)
+    # plt.savefig("networkx1.png")
+    Grafo.render('test-output/round-table.gv', view=True)
+
     print("")
     print("desea evaluar otra cadena (y/n)")
-    respuesta = input()
+    respuesta = sys.stdin.readline().strip().split()
+
     if respuesta == "y":
         continue
     else:
