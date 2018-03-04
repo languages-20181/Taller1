@@ -23,11 +23,11 @@ Para instalar dicha libreria en python:
 
 Para Linux
 
-	**pip install graphviz**
+	** pip install graphviz **
 
 Para instalar graphviz en su equipo
 
-	**sudo apt-get install graphviz**
+	** sudo apt-get install graphviz **
 
 
 
